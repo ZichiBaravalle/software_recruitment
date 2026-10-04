@@ -1,0 +1,17 @@
+FROM python:3.12-alpine
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
+COPY . .
+
+EXPOSE 3000
+
+RUN adduser -D -H app && chown -R app:app /app
+
+USER app
+
+CMD ["fastapi", "run", "main.py", "--port", "3000", "--host", "0.0.0.0"]
